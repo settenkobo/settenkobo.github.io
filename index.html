@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>機械保全技能検定 電気系保全作業 実技「課題2」の練習｜ブラウザで動く故障診断トレーナー</title>
+<meta name="description" content="有接点シーケンス回路の断線・誤配線・部品不良を切り分ける練習を、盤も工具もなしにブラウザで。機械保全技能検定（電気系保全作業）実技の課題2向け。無料デモを登録不要でそのまま試せます。">
+<link rel="canonical" href="https://settenkobo.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="機械保全技能検定 電気系保全作業 実技「課題2」の練習｜故障診断トレーナー">
+<meta property="og:description" content="有接点シーケンス回路の故障切り分けを、盤も工具もなしにブラウザで反復練習。無料デモを登録不要で試せます。">
+<meta property="og:image" content="https://settenkobo.github.io/ogp.png">
+<meta property="og:url" content="https://settenkobo.github.io/">
+<meta property="og:site_name" content="接点工房">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b0432b'/%3E%3Cpath d='M7 16h6l3-6 3 12 3-6h3' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#14120e; --surface:#1e1b15; --surface-2:#26221a;
+  --line:#332e24; --line-strong:#4d4636;
+  --ink:#f0ece1; --ink-2:#c2bbaa; --muted:#8c8574;
+  --accent:#d4553a; --accent-deep:#b0432b; --gold:#d8a84a;
+  --panel:#ece7d8;
+  --f-display:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-mono:"Roboto Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);
+  font-size:16px;line-height:1.9;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+.col{max-width:700px}
+a{color:var(--gold);text-underline-offset:3px}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(29px,4.6vw,46px);font-weight:900;line-height:1.3;margin:0 0 20px}
+h2{font-size:clamp(21px,2.8vw,28px);font-weight:700;margin:0 0 10px}
+h3{font-size:18px;font-weight:700;margin:28px 0 8px}
+p{margin:0 0 17px}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 16px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line);max-width:170px}
+
+header.hero{padding:56px 0 12px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--f-display);font-weight:700;font-size:16px;letter-spacing:.08em;
+  color:var(--ink-2);margin:0 0 40px;display:flex;align-items:center;gap:11px}
+.brand .mk{width:26px;height:26px;border-radius:6px;background:var(--accent-deep);
+  display:grid;place-items:center;flex:none}
+.brand .mk svg{width:17px;height:17px}
+.lead{font-size:clamp(16.5px,2vw,19px);color:var(--ink-2);max-width:640px;margin:0 0 30px}
+.cta{display:flex;flex-wrap:wrap;gap:13px;align-items:center;margin:0 0 16px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:7px;
+  font-family:var(--f-display);font-weight:700;font-size:17px;text-decoration:none;
+  border:1.5px solid transparent;transition:transform .12s ease,background .12s ease}
+.btn.primary{background:var(--accent-deep);color:#fff;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn.ghost:hover{border-color:var(--ink-2);transform:translateY(-1px)}
+.note{font-size:13.5px;color:var(--muted);margin:0 0 44px}
+.shot{margin:0 0 52px;border-radius:10px;overflow:hidden;border:1px solid var(--line-strong);
+  background:var(--panel);line-height:0}
+.shot img{width:100%;height:auto;display:block}
+.shot figcaption{line-height:1.7;font-size:13px;color:var(--muted);background:var(--surface);
+  padding:11px 16px;border-top:1px solid var(--line)}
+
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:26px}
+.grid > div{background:var(--surface);padding:22px}
+.grid h3{margin:0 0 7px;font-size:16.5px}
+.grid p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.8}
+
+.why{border-left:3px solid var(--accent-deep);padding:4px 0 4px 22px;margin:26px 0}
+.why p:last-child{margin-bottom:0}
+.why b{color:var(--ink);font-weight:700}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:22px 0 6px;min-width:520px}
+.tw{overflow-x:auto}
+th,td{text-align:left;padding:12px 16px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;border-bottom-color:var(--line-strong)}
+td.d{font-family:var(--f-mono);white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
+tr.hi td{background:rgba(212,85,58,.11)}
+tr.hi td.d{color:var(--accent)}
+
+.price{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin:24px 0 20px}
+.price .amt{font-family:var(--f-display);font-weight:900;font-size:42px;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.price .amt small{font-size:17px;font-weight:500;color:var(--muted);margin-left:8px;letter-spacing:0}
+ul.plain{list-style:none;padding:0;margin:0 0 20px}
+ul.plain li{position:relative;padding-left:24px;margin-bottom:10px;color:var(--ink-2)}
+ul.plain li::before{content:"";position:absolute;left:1px;top:.78em;width:12px;height:2px;
+  background:var(--accent);border-radius:1px}
+ul.plain li b{color:var(--ink);font-weight:700}
+
+.disc{font-size:13.5px;color:var(--muted);line-height:1.85}
+footer{padding:40px 0 72px;font-size:13px;color:var(--muted);line-height:1.9}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="brand">
+    <span class="mk"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 16h6l3-6 3 12 3-6h3" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    接点工房
+  </p>
+  <p class="eyebrow">機械保全技能検定 ／ 電気系保全作業 ／ 実技 課題2</p>
+  <h1>有接点シーケンス回路の故障切り分けを、<br>盤も工具もなしに練習する</h1>
+  <p class="lead">断線・誤配線・不良リレー・不良タイマを含む制御盤から、原因を見つけて直す。修復後の盤は実際に動作させて自動判定します。ブラウザだけで動き、インストールも登録も要りません。</p>
+  <div class="cta">
+    <a class="btn primary" href="./try/">ブラウザで試す（無料）</a>
+    <a class="btn ghost" href="https://settenkobo.booth.pm/items/8767075">製品版を見る（全24問）</a>
+  </div>
+  <p class="note">無料デモは2級相当の課題を1問収録。会員登録・ダウンロード不要でそのまま動きます。</p>
+  <figure class="shot">
+    <img src="./ogp.png" alt="電気系保全 故障診断トレーナーの制御盤画面。リレーとタイマーが装着されたソケット、色分けされた配線、ランプと押しボタンの端子台が並んでいる。" width="1200" height="1200">
+    <figcaption>実際の画面。ソケットにリレー・タイマーを装着し、端子間を配線して回路を組み立て・修復します。</figcaption>
+  </figure>
+</header>
+
+<section>
+  <p class="eyebrow">課題2の何が難しいのか</p>
+  <h2>答え合わせの手段が、そもそも存在しない</h2>
+  <div class="col">
+    <p>電気系保全作業の実技試験は、課題1（PLCによる回路組立）と課題2（リレー・タイマの点検と、有接点シーケンス回路の点検・修復）の合計で判定されます。</p>
+    <div class="why">
+      <p><b>課題1は事前に問題が公表されます。</b>公表された問題を見て、答えを確かめながら練習できます。</p>
+      <p><b>課題2は事前公開されません。</b>そのうえ作業試験のため、正解も公表されません。</p>
+    </div>
+    <p>つまり独学の場合、課題2だけは「自分の直し方が合っていたのか」を確かめる方法がありません。練習盤があれば動かして確かめられますが、盤は1台10万円を超えます。対策講習は日程と場所が合わないことも多く、費用も安くありません。</p>
+    <p>このソフトは、そこを埋めるために作りました。修復した盤を実際に動作させ、正常な動作と一致するかを自動で判定します。配線の見た目ではなく、<b>回路として機能しているかどうか</b>で判定するので、教科書どおりでない配線でも、正しく動けば正解になります。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">できること</p>
+  <h2>実機でやることを、そのまま画面の上で</h2>
+  <div class="grid">
+    <div>
+      <h3>故障診断の反復練習</h3>
+      <p>断線・誤配線・空配線・部品不良を含む回路から、原因を切り分けて修復します。故障の入り方は毎回変わり、何度でもやり直せます。</p>
+    </div>
+    <div>
+      <h3>動作による自動判定</h3>
+      <p>直した盤を実際に動かし、正常動作と一致するかを判定します。見た目の一致ではなく、回路としての機能で判定します。</p>
+    </div>
+    <div>
+      <h3>テスターによる測定</h3>
+      <p>ダイヤルで電圧・抵抗を切り替え、端子間を実際に当たって確認できます。通電中の危険な操作は記録されます。</p>
+    </div>
+    <div>
+      <h3>回路図の自動生成</h3>
+      <p>自分が配線した内容から回路図を起こし、模範解答との差分を赤枠で表示します。どこが違ったのかが図で分かります。</p>
+    </div>
+    <div>
+      <h3>減点の目安表示</h3>
+      <p>不良配線の残置、過剰な配線、タイマ設定の誤り、活線作業、時間超過などを減点として集計し、参考値として表示します。</p>
+    </div>
+    <div>
+      <h3>フリー練習モード</h3>
+      <p>白紙の盤に自由に配線して動作を試せます。作った盤はファイルに保存でき、いつでも読み込んで再開できます。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">2026年度 第2回 試験日程</p>
+  <h2>電気系保全作業の実技は、11月28日から2月21日まで</h2>
+  <div class="tw">
+  <table>
+    <tr><th>日付</th><th>内容</th></tr>
+    <tr><td class="d">2026/08/24</td><td>受検申請 受付開始</td></tr>
+    <tr class="hi"><td class="d">2026/11/02 10:00</td><td><b>実技試験問題（事前公開用）の公表</b></td></tr>
+    <tr class="hi"><td class="d">2026/11/28 – 2027/02/21</td><td><b>電気系保全作業 実技試験</b>（期間内の土曜・日曜に実施）</td></tr>
+    <tr><td class="d">2026/12/13</td><td>2級 学科試験</td></tr>
+    <tr><td class="d">2027/01/10</td><td>特級・1級・3級 学科試験</td></tr>
+  </table>
+  </div>
+  <p class="disc">日程は<a href="https://www.kikaihozenshi.jp/test_2nd/">公益社団法人日本プラントメンテナンス協会「2026年度 第2回試験の概要」</a>によります。受検申請の締切など最新の情報は、必ず公式サイトでご確認ください。</p>
+</section>
+
+<section>
+  <p class="eyebrow">製品版</p>
+  <h2>1級12問・2級12問＋フリー練習</h2>
+  <div class="col">
+    <div class="price">
+      <span class="amt">¥3,980<small>買い切り・追加課金なし</small></span>
+    </div>
+    <ul class="plain">
+      <li><b>1級相当の課題 12問／2級相当の課題 12問</b>（無料デモは2級相当を1問）</li>
+      <li><b>故障箇所の表示</b> — 断線・誤配線・空配線を色分けして確認できます</li>
+      <li><b>フリー練習モード</b> — 作った盤をファイルに保存・読込みできます</li>
+      <li><b>回路図・タイムチャート表示</b></li>
+      <li>2027年3月末までに見つかった不具合の修正版は無償で提供します</li>
+    </ul>
+    <div class="cta">
+      <a class="btn primary" href="https://settenkobo.booth.pm/items/8767075">BOOTHで購入する</a>
+      <a class="btn ghost" href="./try/">先に無料で試す</a>
+    </div>
+    <p class="note">ダウンロード販売です。ご購入前に必ず無料デモで動作をご確認ください。</p>
+    <h3>法人・団体でのご利用</h3>
+    <p>1ライセンス＝1名です。複数名でお使いの場合は法人ライセンスをご利用ください。</p>
+    <div class="tw">
+    <table>
+      <tr><th>ライセンス</th><th>価格（税込）</th><th>購入方法</th></tr>
+      <tr><td>5席パック</td><td class="d">¥39,800</td><td>BOOTHで購入できます</td></tr>
+      <tr><td>事業所内 人数無制限</td><td class="d">¥98,000</td><td>メールでご連絡ください（銀行振込・領収書PDF発行）</td></tr>
+      <tr><td>教育機関向け</td><td class="d">¥50,000</td><td>メールでご連絡ください</td></tr>
+    </table>
+    </div>
+    <p class="disc">実技試験の練習盤は1台あたり10万円を超えます。事業所内ライセンスであれば、人数の制限なく各自のパソコンで練習できます。お問い合わせは <a href="mailto:settenkobo@outlook.jp">settenkobo@outlook.jp</a> まで。現在、適格請求書発行事業者の登録をしていないため、インボイス（適格請求書）は発行できません。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">動作環境</p>
+  <h2>Windows と Chrome / Edge</h2>
+  <div class="col">
+    <div class="tw">
+    <table>
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>OS</td><td class="d">Windows 10 / 11</td></tr>
+      <tr><td>ブラウザ</td><td class="d">Google Chrome または Microsoft Edge の最新版</td></tr>
+      <tr><td>画面</td><td class="d">横1280ピクセル以上を推奨</td></tr>
+      <tr><td>非対応</td><td class="d">macOS・Safari／Firefox／スマートフォン・タブレット</td></tr>
+    </table>
+    </div>
+    <p class="disc">このページの無料デモはブラウザ上で動作します。製品版はダウンロードしたHTMLファイルをブラウザで開いて使う形式です（インターネット接続は不要）。macOS・Safari は、ローカルファイルでのデータ保存が制限されるため非対応としています。</p>
+  </div>
+</section>
+
+<footer>
+  <p class="disc">
+    <b style="color:var(--ink-2)">本ソフトについて</b><br>
+    本ソフトは技能検定の公式教材ではありません。公開試験問題を複製したものではなく、電気系保全作業の学習を目的として独自に作成したシミュレーション教材です。公益社団法人日本プラントメンテナンス協会（JIPM）、厚生労働省、中央職業能力開発協会とは一切関係がなく、これらの機関による公認・推奨・監修を受けたものではありません。収録している課題文・回路・数値はすべて独自に作成したもので、実際の試験の内容・形式・判定基準と一致することを保証するものではありません。本ソフトのご利用により試験に合格することを保証するものではありません。
+  </p>
+  <p class="disc" style="margin-top:18px">
+    本ソフトの操作はすべて画面上のシミュレーションです。実際の電気設備の取扱いには感電等の危険が伴います。実機での作業は必ず有資格者の指導のもと、法令および社内規程に従って行ってください。
+  </p>
+  <p style="margin-top:24px">
+    接点工房 ／ <a href="https://settenkobo.booth.pm/">BOOTHショップ</a> ／ <a href="mailto:settenkobo@outlook.jp">settenkobo@outlook.jp</a><br>
+    © 2026 接点工房
+  </p>
+</footer>
+
+</div>
+</body>
+</html>
