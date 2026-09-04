@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  電気系保全 故障診断トレーナー  v1.0.0
+  電気系保全 故障診断トレーナー  v1.1.0
   Copyright (c) 2026 接点工房. All rights reserved.
 
   本ソフトウェアおよびその一部の無断転用・複製・改変・再配布を禁止します。
@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>電気系保全 故障診断トレーナー v1.0.0</title>
+<title>電気系保全 故障診断トレーナー v1.1.0</title>
 <style>
 :root{
   --bg:#23262b; --panel:#ece7d8; --panel2:#e0dbc9; --blk:#17181a;
@@ -143,6 +143,14 @@ body.resizing{cursor:col-resize;user-select:none}
 .binOk{fill:#f4fbf1;stroke:#8eb28e}
 .pbig{background:#2e3238;color:#fff;border:none;border-radius:7px;padding:11px 16px;font-size:15px}
 .pbig.acc{background:#b3641b}
+.boothPromo{align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;border:1px solid #d8892f;background:#fff4e6;color:#5b3a16;border-radius:8px;padding:2px 10px;font-size:12.5px;line-height:1.5;text-align:center}
+.boothPromoText{display:inline}
+.boothLink{display:inline-flex;align-items:center;justify-content:center;background:#b3641b;color:#fff;border:1px solid #8f4c10;border-radius:6px;padding:2px 10px;font-size:13.5px;font-weight:700;line-height:1.2;text-decoration:none;white-space:nowrap}
+.boothLink:hover{background:#c87322;border-color:#a85b15}
+.boothHeaderLink{align-items:center;flex:none;background:#754315;color:#fff4dc;border:1px solid var(--acc);border-radius:5px;padding:5px 10px;font-size:13.5px;font-weight:700;line-height:normal;text-decoration:none;white-space:nowrap}
+.boothHeaderLink:hover{background:#8d521b;border-color:#ffb265}
+#startBoothPromo{margin:0}
+#resultBoothPromo{margin-top:10px}
 #dialVal{font-size:26px;text-align:center;margin:4px 0;font-weight:700}
 input[type=range]{width:260px}
 #resultBack .modal{text-align:center;min-width:280px;max-width:min(760px,94vw)}
@@ -152,6 +160,8 @@ input[type=range]{width:260px}
 .stamp.ok{color:#c0362c}
 .stamp.ng{color:#3d5a80}
 #diffList{text-align:left;font-size:13.5px;background:#fff;border:1px solid #cfc8b4;border-radius:6px;padding:8px 10px;max-height:50vh;overflow:auto;line-height:1.7}
+#resultBack.trialBoothPromo{--result-booth-promo-height:40px}
+#resultBack.trialBoothPromo #diffList{max-height:calc(50vh - var(--result-booth-promo-height) - 40px)}
 .inspectionResult{margin-top:8px;background:#f4fbff;border:1px solid #b5cedb;border-radius:6px;padding:7px 9px;text-align:left;font-size:13px}
 .inspectionResult>strong{color:#245d78}
 .inspectionTable{width:100%;border-collapse:collapse;margin-top:5px;line-height:1.45}
@@ -253,9 +263,10 @@ input[type=range]{width:260px}
 </head>
 <body>
 <header>
-  <h1>電気系保全 故障診断トレーナー <span id="versionBadge" style="font-size:11.5px;color:#9aa0a8">v1.0.0</span><span id="courseName" style="font-size:11.5px;color:#ffce8a;margin-left:6px"></span></h1>
+  <h1>電気系保全 故障診断トレーナー <span id="versionBadge" style="font-size:11.5px;color:#9aa0a8">v1.1.0</span><span id="courseName" style="font-size:11.5px;color:#ffce8a;margin-left:6px"></span></h1>
   <button class="hbtn helpBtnStyle" id="helpBtn" title="使い方ガイドを開く"><span aria-hidden="true">?</span> 使い方</button>
   <button class="hbtn" id="suspendBtn" style="display:none;background:#8a6d1f">中断</button>
+  <a class="boothHeaderLink" id="headerBoothLink" href="" target="_blank" rel="noopener noreferrer" style="display:none">製品版を見る(BOOTH)</a>
   <button class="hbtn" id="homeBtn">ホーム</button>
 </header>
 
@@ -360,6 +371,10 @@ input[type=range]{width:260px}
   <button class="pbig" id="stFree" style="background:#4a5568">フリー練習(まっさらな盤)</button>
     <button class="pbig" id="resumeSuspendBtn" style="display:none;background:#8a6d1f">中断した問題を再開</button>
   </div>
+  <div class="boothPromo" id="startBoothPromo" style="display:none">
+    <span class="boothPromoText">全24問＋練習 — <strong class="boothPrice"></strong></span>
+    <a class="boothLink" href="" target="_blank" rel="noopener noreferrer">BOOTHで見る</a>
+  </div>
   <button class="pbig helpStartBtn" id="helpOpenStart"><span aria-hidden="true">?</span> はじめての方へ — 使い方ガイド</button>
   <button class="licenseLink" id="licenseOpen">バージョン情報・ライセンス</button>
   <div style="font-size:11.5px;color:#8b8570;margin-top:10px;line-height:1.5">本ソフトは技能検定の公式教材ではありません。公開試験問題を複製したものではなく、<br>電気系保全作業の学習を目的として独自に作成したシミュレーション教材です。<br>公益社団法人日本プラントメンテナンス協会(JIPM)、厚生労働省、<br>中央職業能力開発協会とは一切関係がありません。</div>
@@ -368,14 +383,10 @@ input[type=range]{width:260px}
 <!-- バージョン情報・ライセンス -->
 <div class="modalBack" id="licenseBack"><div class="modal">
   <h2>バージョン情報・ライセンス</h2>
-  <div class="licenseText">電気系保全 故障診断トレーナー
-バージョン 1.0.0
-
-© 2026 接点工房
-本ソフトウェアの著作権は接点工房に帰属します。
+  <div class="licenseText" id="licenseHead"></div>
+  <div class="licenseText">本ソフトウェアの著作権は接点工房に帰属します。
 本ソフトウェアの無断転用・複製・改変・再配布を禁止します。
-本ソフトウェアは1ライセンスにつき1名の使用を許諾します。
-複数名で使用する場合は人数分のライセンスが必要です。
+詳しい条件は同梱の「ライセンス条項.pdf」をご確認ください。
 
 第三者ソフトウェアの使用: なし
 (本ソフトウェアは外部ライブラリを使用していません。すべて独自実装です)
@@ -1285,7 +1296,7 @@ input[type=range]{width:260px}
 
 <div class="ugHead">
   <h1>使い方ガイド</h1>
-  <p>電気系保全 故障診断トレーナー v1.0.0 ／ 画面の見かたと操作方法</p>
+  <p>電気系保全 故障診断トレーナー v1.1.0 ／ 画面の見かたと操作方法</p>
 </div>
 
 <nav class="ugToc">
@@ -2041,6 +2052,10 @@ input[type=range]{width:260px}
 <div class="modalBack" id="resultBack"><div class="modal">
   <div id="stampHost"></div>
   <div id="diffList" style="display:none"></div>
+  <div class="boothPromo" id="resultBoothPromo" style="display:none">
+    <span class="boothPromoText">全24問＋練習 — <strong class="boothPrice"></strong></span>
+    <a class="boothLink" href="" target="_blank" rel="noopener noreferrer">BOOTHで見る</a>
+  </div>
   <div class="row" style="justify-content:center;margin-top:12px">
     <button class="pbig" id="revealBtn">故障箇所を表示</button>
     <button class="pbig" id="seqBtn" style="background:#1f4e6b">回路図で比較</button>
@@ -2089,15 +2104,34 @@ input[type=range]{width:260px}
 </div></div>
 
 <script>
-/* 電気系保全 故障診断トレーナー v1.0.0 / Copyright (c) 2026 接点工房.
+/* 電気系保全 故障診断トレーナー v1.1.0 / Copyright (c) 2026 接点工房.
    本ソフトウェアおよびその一部の無断転用・複製・改変・再配布を禁止します。 */
 "use strict";
 const TRIAL=true;
+/* ライセンス種別。build_dist.js がこの2行を書き換えて配布物を作り分ける。
+   LICENSEE は法人向け(team5/site/edu)のときだけ入れる発行先名。空なら表示しない。 */
+const LICENSE="trial";   // trial | personal | team5 | site | edu
+const LICENSEE="";
+const LICENSES={
+  trial:   {label:"体験版",             seats:"評価目的の機能限定版",
+            grant:"本体験版は、購入前の内容確認および動作確認のために無償で提供しています。\n内容を改変しない限り、そのままの形で第三者に紹介・配布していただけます。"},
+  personal:{label:"個人ライセンス",     seats:"1名",
+            grant:"本ソフトウェアは1ライセンスにつき1名の使用を許諾します。\nご本人が使用する限り、所有する複数の端末に複製してお使いいただけます。\nご本人以外の方は、同じ事業所内・同じ部署内であっても使用できません。\n複数名でお使いの場合は、人数分のライセンスまたは法人ライセンスが必要です。"},
+  team5:   {label:"5席パック",          seats:"5名まで",
+            grant:"本ライセンスは、同一の法人・団体に所属する5名までの使用を許諾します。\n使用者はあらかじめ特定してください。人員の入れ替えは可能ですが、\n同時に使用できる人数は5名までです。各人が所有する端末への複製は可能です。\n6名以上でお使いになる場合は、事業所内ライセンスをご検討ください。"},
+  site:    {label:"事業所内ライセンス", seats:"1事業所内 人数無制限",
+            grant:"本ライセンスは、上記の発行先事業所に所属する方であれば、\n人数の制限なく使用することを許諾します。社内研修・集合教育での使用も可能です。\n対象は1事業所（1拠点）です。他の拠点、関連会社、協力会社の方は含みません。\n事業所外への持ち出し、社外の方への提供はできません。"},
+  edu:     {label:"教育機関ライセンス", seats:"1施設内 授業・訓練での使用",
+            grant:"本ライセンスは、上記の発行先施設における授業、実習、職業訓練での使用を許諾します。\n当該施設の教職員および在籍する学生・訓練生は、人数の制限なく使用できます。\n実習室の端末への一括導入も可能です。\n在籍者以外への配布、施設外での使用、有償の講習への使用はできません。"}
+};
+const LIC=LICENSES[LICENSE]||LICENSES.personal;
 // 体験版は同梱する1問だけで完結させるため、デモもその問題を使う
 const TRIAL_PROB="G2-07";
 const DEMO_ID=TRIAL?TRIAL_PROB:"G2-03";
 const SKEY=k=>(TRIAL?"khsim_trial_":"khsim_full_")+k;
 const TRIAL_MESSAGE="体験版では2級 問題1のみお試しいただけます。全24問は製品版でご利用ください。";
+const BOOTH_URL="https://settenkobo.booth.pm/items/8767075";
+const BOOTH_PRICE="3,980円(税込・買い切り)";
 const DISCLAIMER_SHORT='<div class="note">本ソフトは技能検定の公式教材ではありません(JIPM・厚生労働省・中央職業能力開発協会とは無関係です)。</div>';
 /* ============ 盤ジオメトリ(950x690) ============ */
 const CIRCUIT_SOCK=["SK1","SK2","SK3","SK4"];
@@ -3669,6 +3703,7 @@ function showResult(rc){
   else{dl.style.display="none";dl.innerHTML="";}
   rc.animate=false;
   $("#resultBack").classList.add("on");
+  requestAnimationFrame(syncResultBoothPromoHeight);
 }
 function answerCurrent(auto=false){
   endExamTimer();
@@ -3716,13 +3751,38 @@ function setTrialLocked(el,locked){
   el.classList.toggle("trialLocked",locked);
   el.setAttribute("aria-disabled",locked?"true":"false");
 }
+function syncResultBoothPromoHeight(){
+  if(!TRIAL)return;
+  const promo=$("#resultBoothPromo");
+  const height=promo.getBoundingClientRect().height;
+  if(!height)return;
+  const style=getComputedStyle(promo);
+  const outerHeight=height+parseFloat(style.marginTop||0)+parseFloat(style.marginBottom||0);
+  $("#resultBack").style.setProperty("--result-booth-promo-height",outerHeight+"px");
+}
 function applyEditionUI(){
-  $("#versionBadge").textContent="v1.0.0"+(TRIAL?" 体験版":"");
+  const badgeLic = LICENSE==="personal" ? "" : " "+LIC.label;
+  $("#versionBadge").textContent="v1.1.0"+badgeLic;
+  $("#licenseHead").textContent=
+    "電気系保全 故障診断トレーナー\nバージョン 1.1.0\n\n"
+    +"ライセンス種別: "+LIC.label+"（使用範囲: "+LIC.seats+"）\n"
+    +(LICENSEE?"発行先: "+LICENSEE+"\n":"")
+    +"\n"+LIC.grant+"\n\n© 2026 接点工房";
   $("#startTrialBadge").style.display=TRIAL?"inline-flex":"none";
+  $("#startBoothPromo").style.display=TRIAL?"flex":"none";
+  $("#headerBoothLink").style.display=TRIAL?"inline-flex":"none";
+  $("#resultBoothPromo").style.display=TRIAL?"flex":"none";
+  $("#resultBack").classList.toggle("trialBoothPromo",TRIAL);
+  document.querySelectorAll(".boothLink,.boothHeaderLink").forEach(el=>el.href=BOOTH_URL);
+  document.querySelectorAll(".boothPrice").forEach(el=>el.textContent=BOOTH_PRICE);
   setTrialLocked($("#st1"),TRIAL);
   setTrialLocked($("#stFree"),TRIAL);
   setTrialLocked($("#courseRnd"),TRIAL);
   $("#seqPng").style.display=TRIAL?"none":"";
+  if(TRIAL){
+    new ResizeObserver(syncResultBoothPromoHeight).observe($("#resultBoothPromo"));
+    window.addEventListener("resize",syncResultBoothPromoHeight);
+  }
 }
 function openCourseSel(g){
   if(TRIAL&&g!==2){showTrialMessage();return;}
@@ -4941,7 +5001,7 @@ async function exportSeqPng(){
     ctx.fillText("あなたの回路",margin+gold.naturalWidth+gap+user.naturalWidth/2,margin+18);
     ctx.drawImage(gold,margin,imageY);ctx.drawImage(user,margin+gold.naturalWidth+gap,imageY);
     ctx.fillStyle="#4b463b";ctx.textAlign="right";ctx.font='12px "Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif';
-    ctx.fillText("電気系保全 故障診断トレーナー v1.0.0",width-margin,height-margin);
+    ctx.fillText("電気系保全 故障診断トレーナー v1.1.0",width-margin,height-margin);
     const d=new Date(),pad=n=>String(n).padStart(2,"0"),a=document.createElement("a");
     a.href=canvas.toDataURL("image/png");
     a.download=`回路図_${curProb.id}_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}.png`;
